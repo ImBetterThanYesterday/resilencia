@@ -1,32 +1,22 @@
-# React + TypeScript + Vite
+# Resilencia — frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React 19 + Vite 8 + TypeScript. El contexto del proyecto, el problema que resuelve y las decisiones de arquitectura están en el [README de la raíz](../README.md).
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev          # http://localhost:5173
+npm run build        # tsc -b && vite build
+npm run lint         # oxlint
+npm run video        # Remotion Studio
+npm run video:render # renderiza el demo a out/resiliencia.mp4
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Notas para trabajar acá
+
+**El Root Directory de Vercel es esta carpeta**, no la raíz del repo. `vercel.json` reescribe todas las rutas a `index.html` porque el enrutado es del lado del cliente (`src/lib/rutas.ts`, sobre la History API).
+
+**CSS plano, sin Tailwind.** Los tokens están en `src/styles/tokens.css` y cada feature trae su hoja en `css/`. El acento de la marca es `--ld-acento` / `--rd-acento` / `--rg-acento` según la feature; se cambia en un solo lugar por hoja.
+
+**jsPDF entra por `import()` dinámico** en `src/lib/pdf.ts`. Si lo pasás a import estático, el bundle inicial pasa de ~80 KB a ~210 KB gzip para todo el mundo.
+
+**`VITE_AGENTE_URL`** apunta al webhook del agente de dudas. Lo que lleve prefijo `VITE_` termina en el bundle y es público: nunca metas una API key ahí.
