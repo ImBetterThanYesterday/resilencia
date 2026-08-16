@@ -1,0 +1,1155 @@
+/* Resiliencia — chat
+ *
+ * DIRECCIÓN: expediente, no aplicación.
+ *
+ * El vocabulario visual sale del mundo del trámite colombiano: el pliego con
+ * margen, el sello redondo del radicado, las secciones abiertas y cerradas por
+ * reglas, los números de referencia en monoespaciada. Nada de tarjetas
+ * flotando sobre un lienzo — eso es el look de cualquier SaaS.
+ *
+ * La firma es una línea de margen vertical que recorre todo el hilo. De ella
+ * cuelga el sello de Resiliencia y contra ella se alinea todo lo que dice. Esa
+ * línea reemplaza a las cajas: agrupa sin encerrar.
+ *
+ * Una sola superficie elevada en toda la interfaz: el documento. Es el
+ * artefacto que la persona se lleva, y es lo único que merece parecer objeto.
+ *
+ * Reparto 60 / 30 / 10 — #F8FAF9 lienzo · #1E3A5F peso · #2E8B72 acento.
+ *
+ * Tipografías:
+ *   Sora            → la voz de la interfaz: títulos, cuerpo y cifras
+ *   IBM Plex Mono   → datos de trámite: fechas, radicados, etiquetas
+ *   Source Serif 4  → solo el interior del documento
+ */
+
+.rd-app {
+  --rd-blanco: #f8faf9;
+  --rd-superficie: #ffffff;
+  --rd-azul: #1e3a5f;
+  --rd-azul-hover: #16293f;
+  --rd-azul-suave: #edf1f6;
+  --rd-verde: #2e8b72;
+  --rd-verde-suave: #e7f3ef;
+
+  --rd-tinta: #1e3a5f;
+  --rd-tinta-2: #55677a;
+  --rd-tinta-3: #8d9daa;
+  --rd-linea: #dde6e2;
+  --rd-linea-suave: #ebf0ed;
+
+  --rd-ambar: #a86a12;
+  --rd-ambar-suave: #fbf4e8;
+  --rd-rojo: #a82f26;
+  --rd-rojo-suave: #fbefee;
+
+  /* Sora es la voz de la interfaz, no solo de los títulos. Es geométrica y
+     ancha, así que el cuerpo va en 400 con interlineado alto y un pelo más
+     chico de lo que pediría una grotesca. */
+  --rd-display: 'Sora', system-ui, sans-serif;
+  --rd-ui: 'Sora', system-ui, sans-serif;
+  --rd-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --rd-doc: 'Source Serif 4', Georgia, serif;
+
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  background: var(--rd-blanco);
+  color: var(--rd-tinta);
+  font-family: var(--rd-ui);
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: -0.008em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Hilo y margen ───────────────────────────────────────────────────────── */
+
+.rd-scroll {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.rd-hilo {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 56px 24px 48px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.rd-msg {
+  position: relative;
+  animation: rd-entra 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes rd-entra {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  };
+}
+
+/* usuario — única burbuja; se despega del margen a propósito */
+.rd-msg--usuario {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.rd-msg--usuario .rd-msg__cuerpo {
+  max-width: 74%;
+  padding: 13px 18px;
+  border-radius: 4px 14px 14px 14px;
+  background: var(--rd-azul);
+  color: #fff;
+}
+
+.rd-msg--usuario .rd-p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #fff;
+}
+
+.rd-msg--usuario .rd-p strong {
+  color: #fff;
+}
+
+.rd-msg--usuario /* Asistente — cuelga del margen, sin contenedor */
+.rd-msg--asistente {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 22px;
+}
+
+.rd-msg__avatar {
+  display: block;
+  line-height: 0;
+  /* el sello se sienta sobre la línea */
+  background: var(--rd-blanco);
+  padding: 4px 0;
+  margin-top: -4px;
+}
+
+.rd-msg--usuario .rd-msg__avatar {
+  display: none;
+}
+
+.rd-msg__cuerpo {
+  min-width: 0;
+  padding-top: 1px;
+}
+
+.rd-p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.72;
+  color: var(--rd-tinta-2);
+}
+
+.rd-p + .rd-p {
+  margin-top: 3px;
+}
+
+.rd-sep {
+  display: block;
+  height: 12px;
+}
+
+.rd-p strong {
+  font-weight: 600;
+  color: var(--rd-tinta);
+}
+
+.rd-msg__hora {
+  display: block;
+  margin-top: 9px;
+  font-family: var(--rd-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--rd-tinta-3);
+}
+
+.rd-puntos {
+  display: flex;
+  gap: 5px;
+  padding: 9px 0;
+}
+
+.rd-puntos span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--rd-verde);
+  animation: rd-latir 1.15s infinite ease-in-out;
+}
+
+.rd-puntos span:nth-child(2) {
+  animation-delay: 0.14s;
+}
+.rd-puntos span:nth-child(3) {
+  animation-delay: 0.28s;
+}
+
+@keyframes rd-latir {
+  0%,
+  62%,
+  100% {
+    opacity: 0.22;
+    transform: translateY(0);
+  }
+  31% {
+    opacity: 1;
+    transform: translateY(-3px);
+  };
+}
+
+/* ── Triaje — sección de pliego, abierta y cerrada por reglas ────────────── */
+
+/* El cierre se anima con grid-template-rows 1fr→0fr: colapsa la altura real
+   sin tener que medirla, y sale suave en vez de desaparecer de golpe. */
+.rd-triaje-wrap {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition:
+    grid-template-rows 460ms cubic-bezier(0.32, 0, 0.24, 1),
+    opacity 300ms ease,
+    filter 380ms ease;
+}
+
+.rd-triaje-wrap > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.rd-triaje-wrap--cerrando {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  filter: blur(1.5px);
+}
+
+/* Sin regla arriba ni rótulo: la pregunta es la continuación del saludo,
+   no una sección aparte. */
+.rd-triaje {
+  margin: 0;
+  transition: opacity 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rd-triaje--enviado {
+  opacity: 0.42;
+  pointer-events: none;
+}
+
+.rd-triaje__cab {
+  padding: 0 0 18px;
+}
+
+.rd-triaje__titulo {
+  margin: 22px 0 0;
+  font-family: var(--rd-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.3;
+  color: var(--rd-tinta);
+}
+
+.rd-triaje__bajada {
+  margin: 7px 0 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--rd-tinta-2);
+  max-width: 54ch;
+}
+
+.rd-triaje__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rd-linea);
+}
+
+.rd-triaje__lista li {
+  border-bottom: 1px solid var(--rd-linea-suave);
+}
+
+.rd-opcion {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 15px;
+  align-items: start;
+  padding: 14px 12px;
+  margin: 0 -12px;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rd-opcion:hover {
+  background: var(--rd-linea-suave);
+}
+
+/* Marcada: se tiñe la fila entera. La confirmación tiene que verse de lejos. */
+.rd-opcion--activa {
+  border-left-color: var(--rd-verde);
+}
+
+.rd-opcion input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.rd-opcion__caja {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  border: 1.5px solid var(--rd-linea);
+  background: transparent;
+  transition: all 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rd-opcion--activa .rd-opcion__caja {
+  border-color: var(--rd-verde);
+  background: var(--rd-verde);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7'/%3E%3C/svg%3E");
+  background-size: 12px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.rd-opcion input:focus-visible + .rd-opcion__caja {
+  outline: 2px solid var(--rd-verde);
+  outline-offset: 3px;
+}
+
+.rd-opcion__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.rd-opcion__etiqueta {
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--rd-tinta);
+}
+
+.rd-opcion__abre {
+  font-family: var(--rd-mono);
+  font-size: 11.5px;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: var(--rd-tinta-3);
+}
+
+.rd-opcion--activa .rd-opcion__abre {
+  color: var(--rd-verde);
+}
+
+/* Salida a texto libre: se ofrece antes de la lista, no después. Discreta
+   pero no escondida — es una alternativa real, no una renuncia. */
+.rd-salida {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 16px 0 0;
+  padding: 0 0 2px;
+  border: none;
+  border-bottom: 1px solid var(--rd-verde);
+  border-radius: 0;
+  background: none;
+  color: var(--rd-verde);
+  font-family: var(--rd-ui);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: gap 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rd-salida span {
+  font-family: var(--rd-mono);
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rd-salida:hover span {
+  transform: translateX(3px);
+}
+
+.rd-triaje__pie {
+  padding: 16px 0 0;
+}
+
+.rd-triaje__nota {
+  margin: 0 0 15px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--rd-tinta-3);
+  max-width: 52ch;
+}
+
+.rd-triaje__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Subsidios ───────────────────────────────────────────────────────────── */
+
+/* ── Listas dentro de un mensaje ────────────────────────────────────────────
+   El asistente escribe; no dibuja tableros. Sin bordes, sin acordeones y sin
+   la regla azul que partía el mensaje en dos: una lista se lee como parte de
+   lo que se está diciendo, no como un módulo aparte. */
+
+.rd-lista {
+  list-style: none;
+  margin: 12px 0 18px;
+  padding: 0;
+}
+
+/* Nombre y cuánto, en un renglón. Antes cada ayuda ocupaba tres líneas y la
+   respuesta entera se leía como un muro. */
+.rd-lista li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rd-linea-suave);
+}
+
+.rd-lista strong {
+  font-family: var(--rd-display);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  line-height: 1.35;
+  color: var(--rd-tinta);
+}
+
+.rd-lista span {
+  flex: 0 0 auto;
+  font-family: var(--rd-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  text-align: right;
+  color: var(--rd-tinta-3);
+}
+
+.rd-papel {
+  background: var(--rd-superficie);
+  border: 1px solid var(--rd-linea);
+  border-radius: 2px;
+  margin: 24px 0 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px #1e3a5f0a,0 18px 42px -22px #1e3a5f4d;
+}
+
+.rd-papel__cab {
+  background: var(--rd-azul);
+  padding: 20px 26px;
+}
+
+.rd-papel__tipo {
+  font-family: var(--rd-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #7ed3b4;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+.rd-papel__titulo {
+  font-family: var(--rd-display);
+  letter-spacing: -.02em;
+  color: #fff;
+  margin: 10px 0 0;
+  font-size: 16.5px;
+  font-weight: 600;
+  line-height: 1.32;
+}
+
+.rd-papel__para {
+  font-family: var(--rd-mono);
+  color: #ffffffd1;
+  margin: 10px 0 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.rd-papel__para span {
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #ffffff80;
+  margin-bottom: 3px;
+  font-size: 10px;
+  display: block;
+}
+
+.rd-papel__hoja {
+  max-height: 244px;
+  padding: 24px 26px 26px;
+  position: relative;
+  overflow: hidden;
+}
+
+.rd-papel__texto {
+  font-family: var(--rd-doc);
+  color: var(--rd-tinta-2);
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.8;
+}
+
+.rd-slot {
+  background: var(--rd-ambar-suave);
+  color: var(--rd-ambar);
+  font-family: var(--rd-mono);
+  border-bottom: 1px solid;
+  padding: 1px 5px;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.rd-papel__degradado {
+  pointer-events: none;
+  background: linear-gradient(#fff0,#fff);
+  height: 78px;
+  position: absolute;
+  inset: auto 0 0;
+}
+
+.rd-papel__pie {
+  border-top: 1px dashed var(--rd-linea);
+  padding: 18px 26px 22px;
+}
+
+.rd-normas {
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.rd-normas li {
+  font-family: var(--rd-mono);
+  letter-spacing: .01em;
+  color: var(--rd-tinta-3);
+  font-size: 11px;
+}
+
+.rd-normas li+li:before {
+  content: "·";
+  color: var(--rd-linea);
+  margin-right: 6px;
+}
+
+.rd-aviso {
+  color: var(--rd-ambar);
+  align-items: flex-start;
+  gap: 8px;
+  margin: 15px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  display: flex;
+}
+
+.rd-aviso svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.rd-acciones {
+  gap: 8px;
+  margin-top: 18px;
+  display: flex;
+}
+
+.rd-btn {
+  font-family: var(--rd-ui);
+  cursor: pointer;
+  border: 1px solid #0000;
+  border-radius: 3px;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 17px;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: all .16s cubic-bezier(.16,1,.3,1);
+  display: inline-flex;
+}
+
+.rd-btn--solido {
+  background: var(--rd-azul);
+  color: #fff;
+}
+
+.rd-btn--solido:hover:not(:disabled) {
+  background: var(--rd-azul-hover);
+}
+
+.rd-btn--solido:disabled {
+  background: var(--rd-linea);
+  color: var(--rd-tinta-3);
+  cursor: not-allowed;
+}
+
+.rd-btn--plano {
+  border-color: var(--rd-linea);
+  color: var(--rd-tinta-2);
+  background: 0 0;
+}
+
+.rd-btn--plano:hover:not(:disabled) {
+  border-color: var(--rd-azul);
+  color: var(--rd-azul);
+}
+
+.rd-plazo {
+  border-top: 2px solid var(--rd-azul);
+  margin: 26px 0 4px;
+  padding: 20px 0 0;
+}
+
+.rd-plazo--vencido {
+  border-top-color: var(--rd-rojo);
+}
+
+.rd-plazo__eyebrow {
+  font-family: var(--rd-mono);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--rd-tinta-3);
+  margin: 0;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+.rd-plazo__cifra {
+  align-items: baseline;
+  gap: 14px;
+  margin: 16px 0 0;
+  display: flex;
+}
+
+.rd-plazo__n {
+  font-family: var(--rd-display);
+  letter-spacing: -.055em;
+  font-variant-numeric: tabular-nums;
+  color: var(--rd-azul);
+  font-size: 72px;
+  font-weight: 700;
+  line-height: .8;
+}
+
+.rd-plazo--vencido .rd-plazo__n {
+  color: var(--rd-rojo);
+}
+
+.rd-plazo__unidad {
+  color: var(--rd-tinta-2);
+  max-width: 15ch;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.rd-plazo__linea {
+  background: var(--rd-linea);
+  height: 2px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.rd-plazo__linea i {
+  background: var(--rd-verde);
+  height: 100%;
+  transition: width .8s cubic-bezier(.16,1,.3,1);
+  display: block;
+}
+
+.rd-plazo--vencido .rd-plazo__linea i {
+  background: var(--rd-rojo);
+}
+
+.rd-plazo__pie {
+  font-family: var(--rd-mono);
+  letter-spacing: .01em;
+  color: var(--rd-tinta-2);
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin: 12px 0 0;
+  font-size: 11.5px;
+  display: flex;
+}
+
+.rd-plazo__paso {
+  color: var(--rd-verde);
+}
+
+.rd-plazo--vencido .rd-plazo__paso {
+  color: var(--rd-rojo);
+}
+
+.rd-faltantes {
+  border-left: 2px solid var(--rd-linea);
+  margin: 22px 0 4px;
+  padding: 0 0 0 17px;
+}
+
+.rd-faltantes h4 {
+  font-family: var(--rd-mono);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--rd-tinta-3);
+  margin: 0 0 12px;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+.rd-faltantes ol {
+  counter-reset: falta;
+  flex-direction: column;
+  gap: 11px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.rd-faltantes li {
+  counter-increment: falta;
+  color: var(--rd-tinta-2);
+  grid-template-columns: 26px 1fr;
+  gap: 4px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  display: grid;
+}
+
+.rd-faltantes li:before {
+  content: counter(falta, decimal-leading-zero);
+  font-family: var(--rd-mono);
+  color: var(--rd-tinta-3);
+  padding-top: 3px;
+  font-size: 11px;
+}
+
+.rd-faltantes li::marker {
+  content: none;
+}
+
+.rd-adjuntos {
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 10px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.rd-adjuntos:last-child {
+  margin-bottom: 0;
+}
+
+.rd-adj-foto {
+  background: var(--rd-azul-suave);
+  border-radius: 12px;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.rd-adj-foto img {
+  object-fit: cover;
+  max-width: 190px;
+  max-height: 190px;
+  display: block;
+}
+
+.rd-adj {
+  background: var(--rd-superficie);
+  box-shadow: 0 0 0 1px var(--rd-linea);
+  border-radius: 12px;
+  align-items: center;
+  gap: 10px;
+  max-width: 260px;
+  padding: 7px 9px;
+  display: flex;
+}
+
+.rd-adj--enviado {
+  box-shadow: none;
+  background: #ffffff24;
+}
+
+.rd-adj__mini {
+  object-fit: cover;
+  border-radius: 8px;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  display: grid;
+}
+
+.rd-adj__mini--doc {
+  background: var(--rd-azul-suave);
+  color: var(--rd-azul);
+}
+
+.rd-adj--enviado .rd-adj__mini--doc {
+  color: #fff;
+  background: #fff3;
+}
+
+.rd-adj__info {
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.3;
+  display: flex;
+}
+
+.rd-adj__nombre {
+  color: var(--rd-tinta);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12.5px;
+  overflow: hidden;
+}
+
+.rd-adj__peso {
+  font-family: var(--rd-mono);
+  color: var(--rd-tinta-3);
+  font-size: 10.5px;
+}
+
+.rd-adj--enviado .rd-adj__nombre {
+  color: #fff;
+}
+
+.rd-adj--enviado .rd-adj__peso {
+  color: #ffffff9e;
+}
+
+.rd-adj__quitar {
+  width: 22px;
+  height: 22px;
+  color: var(--rd-tinta-3);
+  cursor: pointer;
+  background: 0 0;
+  border: none;
+  border-radius: 50%;
+  flex: none;
+  place-items: center;
+  transition: all .15s cubic-bezier(.16,1,.3,1);
+  display: grid;
+}
+
+.rd-adj__quitar:hover {
+  background: var(--rd-rojo-suave);
+  color: var(--rd-rojo);
+}
+
+.rd-aviso-archivo {
+  background: var(--rd-ambar-suave);
+  color: var(--rd-ambar);
+  border-radius: 10px;
+  margin: 0 0 10px;
+  padding: 8px 13px;
+  font-size: 12.5px;
+}
+
+.rd-footer {
+  background: linear-gradient(to top, var(--rd-blanco) 62%, #f8faf900);
+  flex: none;
+}
+
+.rd-composer {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 14px 24px 18px;
+}
+
+.rd-sugerencias {
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 12px;
+  display: flex;
+}
+
+.rd-sugerencia {
+  background: var(--rd-azul-suave);
+  color: var(--rd-tinta-2);
+  font-family: var(--rd-ui);
+  text-align: left;
+  cursor: pointer;
+  border: none;
+  border-radius: 999px;
+  padding: 9px 15px;
+  font-size: 13px;
+  line-height: 1.4;
+  transition: all .16s cubic-bezier(.16,1,.3,1);
+}
+
+.rd-sugerencia:hover {
+  background: var(--rd-verde-suave);
+  color: var(--rd-verde);
+}
+
+.rd-composer__caja {
+  background: var(--rd-superficie);
+  border: none;
+  border-radius: 26px;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 7px 7px 7px 20px;
+  transition: box-shadow .2s cubic-bezier(.16,1,.3,1);
+  display: flex;
+  box-shadow: 0 1px 2px #1e3a5f0d,0 10px 28px -14px #1e3a5f3d;
+}
+
+.rd-composer__caja:focus-within {
+  box-shadow: 0 0 0 3px var(--rd-verde-suave), 0 10px 30px -12px #2e8b7252;
+}
+
+.rd-composer__caja--grabando {
+  box-shadow: 0 0 0 3px var(--rd-rojo-suave), 0 10px 30px -12px #a82f264d;
+}
+
+.rd-composer__area {
+  resize: none;
+  color: var(--rd-tinta);
+  font-family: var(--rd-ui);
+  background: 0 0;
+  border: none;
+  outline: none;
+  flex: auto;
+  max-height: 160px;
+  padding: 9px 0;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.rd-composer__area::placeholder {
+  color: var(--rd-tinta-3);
+}
+
+.rd-composer__acciones {
+  gap: 4px;
+  display: flex;
+}
+
+.rd-icon-btn {
+  width: 38px;
+  height: 38px;
+  color: var(--rd-tinta-2);
+  cursor: pointer;
+  background: 0 0;
+  border: none;
+  border-radius: 50%;
+  place-items: center;
+  transition: all .16s cubic-bezier(.16,1,.3,1);
+  display: grid;
+}
+
+.rd-icon-btn:hover:not(:disabled) {
+  background: var(--rd-azul-suave);
+  color: var(--rd-azul);
+}
+
+.rd-icon-btn:disabled {
+  opacity: .3;
+  cursor: not-allowed;
+}
+
+.rd-icon-btn--enviar:not(:disabled) {
+  background: var(--rd-azul);
+  color: #fff;
+}
+
+.rd-icon-btn--enviar:not(:disabled):hover {
+  background: var(--rd-azul-hover);
+}
+
+.rd-icon-btn--rec,
+.rd-icon-btn--rec:hover:not(:disabled) {
+  background: var(--rd-rojo);
+  color: #fff;
+}
+
+.rd-grabando {
+  flex: auto;
+  align-items: center;
+  gap: 13px;
+  padding: 11px 0;
+  display: flex;
+}
+
+.rd-grabando__punto {
+  background: var(--rd-rojo);
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  animation: 1.1s infinite rd-pulso;
+}
+
+@keyframes rd-pulso {
+  50% {
+    opacity: .25;
+  }
+}
+
+.rd-grabando__texto {
+  color: var(--rd-tinta-2);
+  font-size: 14.5px;
+}
+
+.rd-grabando__tiempo {
+  font-family: var(--rd-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--rd-tinta-3);
+  font-size: 14px;
+}
+
+.rd-onda {
+  align-items: center;
+  gap: 3px;
+  height: 18px;
+  display: flex;
+}
+
+.rd-onda span {
+  background: var(--rd-rojo);
+  opacity: .45;
+  width: 2.5px;
+  height: 100%;
+  animation: .9s ease-in-out infinite rd-onda;
+}
+
+@keyframes rd-onda {
+  0%,to {
+    transform: scaleY(.22);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.rd-disclaimer {
+  text-align: center;
+  color: var(--rd-tinta-3);
+  margin: 12px 0 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.rd-sugerencia:focus-visible,
+.rd-btn:focus-visible,
+.rd-icon-btn:focus-visible {
+  outline: 2px solid var(--rd-verde);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .rd-msg,.rd-puntos span,.rd-onda span,.rd-grabando__punto {
+    animation: none;
+  }
+  .rd-plazo__linea i,.rd-btn,.rd-sugerencia,.rd-opcion {
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .rd-hilo {
+    gap: 26px;
+    padding: 32px 16px 40px;
+  }
+  .rd-msg--asistente {
+    grid-template-columns: 24px 1fr;
+    gap: 16px;
+  }
+  .rd-composer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .rd-msg--usuario .rd-msg__cuerpo {
+    max-width: 88%;
+  }
+  .rd-plazo__n {
+    font-size: 56px;
+  }
+  .rd-meta div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+  .rd-papel__cab,.rd-papel__hoja,.rd-papel__pie {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
+/* ── Pasos ────────────────────────────────────────────────────────────────── */
+
+.rd-pasos {
+  /* El reset quita los marcadores de toda lista; acá se devuelven a mano
+     porque el número no es decoración: dice en qué orden hacer las cosas. */
+  list-style: decimal;
+  margin: 14px 0 18px;
+  padding: 0 0 0 26px;
+}
+
+/* list-item, no flex: en cuanto la fila deja de ser un ítem de lista el
+   navegador deja de pintar el ::marker y los pasos pierden la numeración,
+   que es justo lo que les da sentido. */
+.rd-pasos li {
+  display: list-item;
+}
+
+.rd-pasos li + li {
+  margin-top: 16px;
+}
+
+.rd-pasos li::marker {
+  font-family: var(--rd-mono);
+  font-size: 12px;
+  color: var(--rd-tinta-3);
+}
+
+.rd-pasos strong {
+  display: block;
+  margin-bottom: 2px;
+  font-family: var(--rd-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  line-height: 1.35;
+  color: var(--rd-tinta);
+}
+
+.rd-pasos p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--rd-tinta-2);
+}
+
+.rd-pasos__donde {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--rd-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--rd-tinta-3);
+}

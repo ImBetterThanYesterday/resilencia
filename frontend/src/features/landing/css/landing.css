@@ -1,0 +1,912 @@
+/* Resiliencia — landing
+ *
+ * Registro institucional: se tiene que leer como una organización que presta
+ * un servicio, no como un lanzamiento de software. Eso significa encabezado
+ * con navegación real, secciones separadas por reglas, proceso numerado y un
+ * pie con la letra chica a la vista.
+ *
+ * Sin tarjetas, sin badges, sin sombras. Todo en Sora.
+ * El color va contado: azul para el peso, verde solo para señalar la
+ * respuesta y la acción. El resto es lienzo y aire.
+ */
+
+.ld {
+  --ld-blanco: #f8faf9;
+  --ld-azul: #1e3a5f;
+  --ld-azul-hover: #16293f;
+  --ld-verde: #2e8b72;
+  --ld-verde-hover: #26765f;
+
+  --ld-tinta-2: #55677a;
+  --ld-tinta-3: #8d9daa;
+  --ld-linea: #dde6e2;
+
+  background: var(--ld-blanco);
+  color: var(--ld-azul);
+  font-family: 'Sora', system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: -0.008em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ld-ancho {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.ld-revelar {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ld-revelar--visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Encabezado ──────────────────────────────────────────────────────────── */
+
+.ld-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--ld-blanco);
+  transition: border-color 220ms ease, background 220ms ease;
+  border-bottom: 1px solid transparent;
+}
+
+.ld-nav--fija {
+  border-bottom-color: var(--ld-linea);
+  background: rgba(248, 250, 249, 0.88);
+  backdrop-filter: saturate(180%) blur(12px);
+}
+
+/* Grilla de tres columnas: las laterales reparten el sobrante por igual, así
+   el centro queda centrado de verdad aunque la marca y el CTA midan distinto.
+   Con flex y margin-left:auto el bloque del medio se recuesta a la derecha. */
+.ld-nav__fila {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  height: 72px;
+}
+
+.ld-nav__marca {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--ld-azul);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.028em;
+}
+
+.ld-nav__links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.ld-nav__links button {
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--ld-tinta-2);
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.ld-nav__links button:hover {
+  color: var(--ld-azul);
+}
+
+.ld-nav__cta {
+  justify-self: end;
+  padding: 11px 21px;
+  border: none;
+  border-radius: 999px;
+  background: var(--ld-azul);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  cursor: pointer;
+  transition: background 200ms ease;
+}
+
+.ld-nav__cta:hover {
+  background: var(--ld-azul-hover);
+}
+
+/* ── Botones ─────────────────────────────────────────────────────────────── */
+
+.ld-btn {
+  padding: 16px 30px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  cursor: pointer;
+  transition:
+    background 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 220ms ease;
+}
+
+.ld-btn--verde {
+  background: var(--ld-verde);
+  color: #fff;
+}
+
+.ld-btn--verde:hover {
+  background: var(--ld-verde-hover);
+  transform: translateY(-2px);
+}
+
+.ld-btn--linea {
+  background: transparent;
+  border-color: var(--ld-linea);
+  color: var(--ld-azul);
+}
+
+.ld-btn--linea:hover {
+  border-color: var(--ld-azul);
+}
+
+/* ── Hero ────────────────────────────────────────────────────────────────── */
+
+.ld-hero {
+  padding: 92px 0 88px;
+}
+
+.ld-hero__contexto {
+  margin: 0 0 26px;
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+  color: var(--ld-verde);
+}
+
+.ld-hero__h1 {
+  margin: 0;
+  font-size: clamp(2.9rem, 7vw, 4.75rem);
+  font-weight: 600;
+  letter-spacing: -0.047em;
+  line-height: 1.02;
+}
+
+.ld-hero__bajada {
+  margin: 26px 0 0;
+  max-width: 32ch;
+  font-size: clamp(1.15rem, 2.3vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -0.022em;
+  color: var(--ld-tinta-2);
+}
+
+.ld-hero__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 40px;
+}
+
+/* ── Compromisos ─────────────────────────────────────────────────────────── */
+
+.ld-compromisos {
+  padding: 56px 0;
+  border-top: 1px solid var(--ld-linea);
+  border-bottom: 1px solid var(--ld-linea);
+}
+
+/* Tres tarjetas del mismo tamaño: son promesas del mismo peso, así que
+   ninguna puede verse más grande que otra. */
+.ld-compromisos__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.ld-compromisos__lista li,
+.ld-compromisos__lista .ld-revelar {
+  height: 100%;
+}
+
+.ld-compromiso {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  min-height: 148px;
+  padding: 26px 24px;
+  border-radius: 16px;
+  background: #edf1f6;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ld-compromiso:hover {
+  transform: translateY(-3px);
+}
+
+.ld-compromiso__icono {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ld-azul);
+  color: #fff;
+}
+
+.ld-compromiso h3 {
+  margin: 0 auto 0 0;
+  align-self: flex-start;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.3;
+  color: var(--ld-azul);
+  max-width: 14ch;
+}
+
+/* La del medio en sólido: rompe la fila y evita el bloque plano de tres. */
+.ld-compromisos__lista li:nth-child(2) .ld-compromiso {
+  background: var(--ld-azul);
+}
+
+.ld-compromisos__lista li:nth-child(2) .ld-compromiso__icono {
+  background: var(--ld-verde);
+}
+
+.ld-compromisos__lista li:nth-child(2) .ld-compromiso h3 {
+  color: #fff;
+}
+
+/* ── Títulos de sección ──────────────────────────────────────────────────── */
+
+.ld-h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 3.6vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.037em;
+  line-height: 1.15;
+}
+
+.ld-intro {
+  margin: 18px 0 0;
+  max-width: 54ch;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--ld-tinta-2);
+}
+
+/* ── Núcleo: situación → respuesta ───────────────────────────────────────── */
+
+.ld-nucleo {
+  padding: 96px 0;
+}
+
+.ld-filas {
+  list-style: none;
+  margin: 52px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--ld-linea);
+}
+
+.ld-filas li {
+  border-bottom: 1px solid var(--ld-linea);
+}
+
+.ld-fila {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr);
+  align-items: baseline;
+  width: 100%;
+  padding: 26px 12px 26px 4px;
+  border: none;
+  background: none;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    padding-left 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    background 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ld-fila:hover {
+  padding-left: 14px;
+  background: rgba(46, 139, 114, 0.045);
+}
+
+.ld-fila__situacion {
+  font-size: clamp(1.0625rem, 2vw, 1.25rem);
+  font-weight: 500;
+  letter-spacing: -0.022em;
+  line-height: 1.35;
+  color: var(--ld-azul);
+}
+
+/* La flecha es el verbo: la situación activa la respuesta. */
+.ld-fila__flecha {
+  position: relative;
+  align-self: center;
+  height: 1px;
+  background: var(--ld-linea);
+  transition: background 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ld-fila__flecha::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -3px;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid var(--ld-linea);
+  border-right: 1px solid var(--ld-linea);
+  transform: rotate(45deg);
+  transition: border-color 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ld-fila:hover .ld-fila__flecha,
+.ld-fila:focus-visible .ld-fila__flecha {
+  background: var(--ld-verde);
+}
+
+.ld-fila:hover .ld-fila__flecha::after,
+.ld-fila:focus-visible .ld-fila__flecha::after {
+  border-color: var(--ld-verde);
+}
+
+.ld-fila__respuesta {
+  padding-left: 26px;
+  font-weight: 500;
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
+  line-height: 1.5;
+  letter-spacing: -0.015em;
+  color: var(--ld-tinta-2);
+  transition: color 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ld-fila:hover .ld-fila__respuesta,
+.ld-fila:focus-visible .ld-fila__respuesta {
+  color: var(--ld-verde);
+}
+
+/* ── Cómo funciona ───────────────────────────────────────────────────────── */
+
+.ld-como {
+  padding: 96px 0;
+  border-top: 1px solid var(--ld-linea);
+}
+
+.ld-pasos {
+  list-style: none;
+  margin: 52px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.ld-pasos li {
+  border-top: 1px solid var(--ld-linea);
+}
+
+.ld-pasos li:last-child {
+  border-bottom: 1px solid var(--ld-linea);
+}
+
+.ld-pasos .ld-revelar {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 20px;
+  align-items: start;
+  padding: 26px 4px;
+}
+
+/* Disco azul con el número en blanco: el paso se ve como una ficha del
+   proceso, no como una viñeta suelta. */
+.ld-pasos__n {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--ld-azul);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+  margin-top: -2px;
+}
+
+.ld-pasos h3 {
+  margin: 0;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: -0.026em;
+  line-height: 1.3;
+}
+
+.ld-pasos p {
+  margin: 8px 0 0;
+  max-width: 62ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ld-tinta-2);
+}
+
+/* ── Opción libre ────────────────────────────────────────────────────────── */
+
+.ld-libre {
+  padding: 96px 0;
+  border-top: 1px solid var(--ld-linea);
+}
+
+.ld-cita {
+  margin: 46px 0 0;
+  padding: 0 0 0 26px;
+  border-left: 2px solid var(--ld-verde);
+  max-width: 26ch;
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  font-style: normal;
+  letter-spacing: -0.032em;
+  line-height: 1.28;
+  color: var(--ld-azul);
+}
+
+.ld-cita::before {
+  content: '“';
+}
+.ld-cita::after {
+  content: '”';
+}
+
+.ld-libre__pie {
+  margin: 38px 0 0;
+  max-width: 52ch;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--ld-tinta-2);
+}
+
+/* ── Cierre ──────────────────────────────────────────────────────────────── */
+
+.ld-cierre {
+  padding: 104px 0;
+  background: var(--ld-azul);
+  color: #fff;
+}
+
+.ld-cierre__h2 {
+  margin: 0;
+  max-width: 20ch;
+  font-size: clamp(1.9rem, 4.4vw, 2.9rem);
+  font-weight: 600;
+  letter-spacing: -0.042em;
+  line-height: 1.1;
+  color: #fff;
+}
+
+.ld-intro--claro {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.ld-cierre .ld-btn--verde {
+  margin-top: 42px;
+}
+
+/* ── Pie ─────────────────────────────────────────────────────────────────── */
+
+.ld-pie {
+  padding: 64px 0 34px;
+}
+
+.ld-pie__grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 44px;
+}
+
+.ld-pie__marca p {
+  margin: 16px 0 0;
+  max-width: 40ch;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ld-tinta-2);
+}
+
+.ld-pie__col h4 {
+  margin: 0 0 14px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ld-tinta-3);
+}
+
+.ld-pie__col button,
+.ld-pie__col p {
+  display: block;
+  margin: 0 0 9px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--ld-tinta-2);
+  text-align: left;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.ld-pie__col p {
+  cursor: default;
+}
+
+.ld-pie__col button:hover {
+  color: var(--ld-verde);
+}
+
+.ld-pie__legal {
+  margin: 0;
+  padding-top: 26px;
+  border-top: 1px solid var(--ld-linea);
+  max-width: 72ch;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--ld-tinta-3);
+}
+
+/* ── Foco visible ────────────────────────────────────────────────────────── */
+
+.ld-fila:focus-visible,
+.ld-btn:focus-visible,
+.ld-nav__cta:focus-visible,
+.ld-nav__links button:focus-visible,
+.ld-pie__col button:focus-visible {
+  outline: 2px solid var(--ld-verde);
+  outline-offset: 3px;
+}
+
+.ld-cierre .ld-btn:focus-visible {
+  outline-color: #fff;
+}
+
+/* ── Móvil ───────────────────────────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .ld-compromisos__lista {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .ld-compromiso {
+    min-height: 0;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+  }
+
+  .ld-compromiso h3 {
+    max-width: none;
+    font-size: 1rem;
+  }
+
+  .ld-pie__grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 720px) {
+  .ld-ancho {
+    padding: 0 20px;
+  }
+
+  /* En móvil el encabezado se queda con marca y CTA: los links viven en el
+     cuerpo de la página, repetirlos arriba solo roba altura. */
+  .ld-nav__links {
+    display: none;
+  }
+
+  .ld-nav__fila {
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+  }
+
+  .ld-nav__cta {
+    padding: 10px 17px;
+    font-size: 0.875rem;
+  }
+
+  .ld-hero {
+    padding: 56px 0 60px;
+  }
+
+  .ld-hero__acciones {
+    margin-top: 32px;
+  }
+
+  .ld-btn {
+    width: 100%;
+    padding: 15px 24px;
+  }
+
+  .ld-nucleo,
+  .ld-como,
+  .ld-libre {
+    padding: 64px 0;
+  }
+
+  .ld-cierre {
+    padding: 72px 0;
+  }
+
+  .ld-fila {
+    grid-template-columns: 1fr;
+    padding: 20px 4px;
+  }
+
+  .ld-fila__flecha {
+    display: none;
+  }
+
+  .ld-fila__respuesta {
+    margin-top: 7px;
+    padding-left: 14px;
+    border-left: 2px solid var(--ld-verde);
+  }
+
+  .ld-pasos .ld-revelar {
+    grid-template-columns: 34px 1fr;
+    gap: 14px;
+    padding: 22px 4px;
+  }
+
+}
+
+/* ── Sección: lo que sale ───────────────────────────────────────────────── */
+
+.ld-salida {
+  padding: 96px 0;
+  border-top: 1px solid var(--ld-linea);
+}
+
+.ld-salida__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: 64px;
+}
+
+.ld-salida .ld-intro + .ld-intro {
+  margin-top: 16px;
+}
+
+/* ── Móvil ───────────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .ld-hero__grid,
+  .ld-salida__grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .ld-hero__visual::before {
+    inset: -8% -6%;
+  }
+}
+
+@media (max-width: 720px) {
+  .ld-salida {
+    padding: 64px 0;
+  }
+
+}
+
+/* ── Bandera ─────────────────────────────────────────────────────────────── */
+
+.ld-hero__contexto {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bandera-co {
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+
+.ld-pie__logos {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ── Bandas de fotografía ────────────────────────────────────────────────────
+   A ancho completo, rompiendo la caja de lectura: es lo que le da respiro a
+   una página que si no es solo texto y reglas. */
+
+.ld-banda {
+  position: relative;
+  margin: 0;
+  height: clamp(280px, 42vw, 460px);
+  overflow: hidden;
+  background: var(--ld-azul);
+}
+
+.ld-banda--angosta {
+  height: clamp(180px, 26vw, 300px);
+}
+
+.ld-banda img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Velo azul: amarra la foto a la paleta en vez de dejarla como cuerpo extraño */
+.ld-banda::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(30, 58, 95, 0.92),
+    rgba(30, 58, 95, 0.42) 55%,
+    rgba(30, 58, 95, 0.2)
+  );
+  pointer-events: none;
+}
+
+.ld-banda--angosta::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(30, 58, 95, 0.55),
+    rgba(30, 58, 95, 0.35)
+  );
+}
+
+.ld-banda figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  padding: 0 32px 40px;
+}
+
+.ld-banda figcaption p {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0;
+  font-size: clamp(1.0625rem, 2.2vw, 1.4rem);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.026em;
+  color: #fff;
+  text-wrap: balance;
+}
+
+/* Foto dentro de la sección del documento */
+.ld-salida__foto {
+  display: block;
+  width: 100%;
+  height: clamp(300px, 34vw, 420px);
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+@media (max-width: 720px) {
+  .ld-banda figcaption {
+    padding: 0 20px 28px;
+  }
+
+  .ld-salida__foto {
+    height: 240px;
+  }
+}
+
+/* Un solo CTA en el hero. La línea de abajo quita fricción sin sonar a venta. */
+.ld-hero__acciones {
+  align-items: center;
+}
+
+.ld-hero__nota {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ld-tinta-3);
+}
+
+@media (max-width: 720px) {
+  .ld-hero__acciones {
+    align-items: stretch;
+  }
+
+  .ld-hero__nota {
+    text-align: center;
+  }
+}
+
+/* ── Quiénes somos ───────────────────────────────────────────────────────────
+   La foto no es un equipo posando: es el tablero donde quedó escrito el
+   problema. Por eso va con pie de foto y no recortada a un retrato — lo que
+   hay que poder leer es lo que está detrás de ellos. */
+
+.ld-equipo {
+  padding: 104px 0;
+  border-top: 1px solid var(--ld-linea);
+}
+
+.ld-equipo__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 64px;
+}
+
+.ld-equipo__figura {
+  margin: 0;
+}
+
+.ld-equipo__figura img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 32%;
+}
+
+.ld-equipo__figura figcaption {
+  margin-top: 12px;
+  font-size: 0.8125rem;
+  color: var(--ld-tinta-3);
+}
+
+.ld-equipo__ojo {
+  margin: 0 0 14px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ld-verde);
+}
+
+.ld-equipo .ld-intro + .ld-intro {
+  margin-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .ld-equipo {
+    padding: 72px 0;
+  }
+
+  .ld-equipo__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .ld-equipo__figura img {
+    aspect-ratio: 3 / 2;
+  }
+}
