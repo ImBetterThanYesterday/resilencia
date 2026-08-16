@@ -1,12 +1,12 @@
 /* Registro — una pregunta por pantalla.
-   Mismo vocabulario que el resto: lienzo, tinta azul, verde contado. */
+   Mismo vocabulario que el resto: lienzo, tinta azul, azul vivo contado. */
 
 .rg {
   --rg-blanco: #f8faf9;
   --rg-azul: #1e3a5f;
   --rg-azul-hover: #16293f;
-  --rg-verde: #2e8b72;
-  --rg-verde-suave: #e7f3ef;
+  --rg-acento: #1b6ac9;
+  --rg-acento-suave: #e9f1fb;
   --rg-tinta-2: #55677a;
   --rg-tinta-3: #8d9daa;
   --rg-linea: #dde6e2;
@@ -52,7 +52,7 @@
 .rg-barra i {
   display: block;
   height: 100%;
-  background: var(--rg-verde);
+  background: var(--rg-acento);
   transition: width 420ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -122,7 +122,7 @@
 .rg-tipo:focus,
 .rg-select:focus {
   outline: none;
-  border-bottom-color: var(--rg-verde);
+  border-bottom-color: var(--rg-acento);
 }
 
 /* Select a ancho completo: la lista es la respuesta, no un accesorio. */
@@ -173,14 +173,14 @@
 }
 
 .rg-autoriza--on .rg-autoriza__caja {
-  border-color: var(--rg-verde);
-  background: var(--rg-verde)
+  border-color: var(--rg-acento);
+  background: var(--rg-acento)
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7'/%3E%3C/svg%3E")
     center / 13px no-repeat;
 }
 
 .rg-autoriza input:focus-visible + .rg-autoriza__caja {
-  outline: 2px solid var(--rg-verde);
+  outline: 2px solid var(--rg-acento);
   outline-offset: 3px;
 }
 
@@ -263,7 +263,7 @@
 }
 
 .rg-btn:focus-visible {
-  outline: 2px solid var(--rg-verde);
+  outline: 2px solid var(--rg-acento);
   outline-offset: 3px;
 }
 
@@ -311,7 +311,7 @@
 }
 
 .rg-sit--on {
-  border-left-color: var(--rg-verde);
+  border-left-color: var(--rg-acento);
 }
 
 .rg-sit input {
@@ -343,12 +343,12 @@
 }
 
 .rg-sit--on .rg-sit__abre {
-  color: var(--rg-verde);
+  color: var(--rg-acento);
 }
 
 .rg-sit--on .rg-autoriza__caja {
-  border-color: var(--rg-verde);
-  background: var(--rg-verde)
+  border-color: var(--rg-acento);
+  background: var(--rg-acento)
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7'/%3E%3C/svg%3E")
     center / 13px no-repeat;
 }
@@ -385,18 +385,18 @@
 }
 
 .rg-eleccion:hover {
-  border-color: var(--rg-verde);
+  border-color: var(--rg-acento);
   transform: translateY(-1px);
 }
 
 .rg-eleccion:focus-visible {
-  outline: 2px solid var(--rg-verde);
+  outline: 2px solid var(--rg-acento);
   outline-offset: 2px;
 }
 
 .rg-eleccion--on {
-  border-color: var(--rg-verde);
-  background: var(--rg-verde-suave);
+  border-color: var(--rg-acento);
+  background: var(--rg-acento-suave);
 }
 
 .rg-eleccion__etiqueta {
@@ -446,7 +446,7 @@
 .rg-sop__barra i {
   display: block;
   height: 100%;
-  background: var(--rg-verde);
+  background: var(--rg-acento);
   transition: width 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -478,8 +478,8 @@
 }
 
 .rg-sop__item--ok .rg-sop__marca {
-  border-color: var(--rg-verde);
-  background: var(--rg-verde);
+  border-color: var(--rg-acento);
+  background: var(--rg-acento);
 }
 
 .rg-sop__texto {
@@ -521,7 +521,7 @@
   margin-top: 8px;
   padding: 6px 8px 6px 6px;
   border-radius: 9px;
-  background: var(--rg-verde-suave);
+  background: var(--rg-acento-suave);
   align-self: flex-start;
   max-width: 100%;
 }
@@ -576,8 +576,8 @@
 }
 
 .rg-sop__subir:hover {
-  border-color: var(--rg-verde);
-  color: var(--rg-verde);
+  border-color: var(--rg-acento);
+  color: var(--rg-acento);
 }
 
 @media (max-width: 640px) {

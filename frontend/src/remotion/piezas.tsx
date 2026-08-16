@@ -109,7 +109,7 @@ export function Cartel({
                   color: '#1E3A5F',
                 }}
               >
-                Resiliencia
+                Resilencia
               </span>
             </div>
           )}

@@ -7,7 +7,11 @@ import type {
   Plazo,
   Subsidio,
 } from '../../../types';
+import { useState } from 'react';
 import { IconAlert, IconDoc, IconDownload } from '../../../components/icons';
+import { cuerpoEditable, rellenar } from '../../../lib/documento';
+import { descargarPdf } from '../../../lib/pdf';
+import { EditorDoc } from './EditorDoc';
 
 /* ── Texto con **negrita** y saltos de línea ─────────────────────────────── */
 
@@ -65,23 +69,6 @@ const ETIQUETA_DOC: Record<Documento['tipo'], string> = {
   QUEJA: 'Queja',
 };
 
-/** Reemplaza los [CAMPOS] con los datos ya entregados. */
-function rellenar(texto: string, d?: DatosPersona) {
-  if (!d) return texto;
-  const mapa: Record<string, string> = {
-    '[NOMBRE COMPLETO]': d.nombre,
-    '[NÚMERO]': d.documento ? `${d.tipoDoc} ${d.documento}` : '',
-    '[DIRECCIÓN]': d.direccion,
-    '[FECHA]': d.fechaEvento,
-    '[MUNICIPIO]': d.municipio,
-    '[DEPARTAMENTO]': d.departamento,
-  };
-  return Object.entries(mapa).reduce(
-    (acc, [clave, valor]) => (valor ? acc.replaceAll(clave, valor) : acc),
-    texto,
-  );
-}
-
 /** Resalta los [CAMPOS] que todavía faltan por llenar. */
 function Extracto({ texto }: { texto: string }) {
   return (
@@ -99,7 +86,52 @@ function Extracto({ texto }: { texto: string }) {
   );
 }
 
+/* Las ediciones viven en sessionStorage y no en el hilo: el hilo se serializa
+ * entero en cada mensaje, y arrastrar ahí el texto completo de cada escrito lo
+ * haría crecer sin razón. Con la clave por id, además, la corrección sobrevive
+ * a un F5 igual que la conversación. */
+const CLAVE_EDICION = 'resilencia.doc.';
+
+function edicionGuardada(id: string): string | null {
+  try {
+    return sessionStorage.getItem(CLAVE_EDICION + id);
+  } catch {
+    return null;
+  }
+}
+
 function Papel({ doc, datos }: { doc: Documento; datos?: DatosPersona }) {
+  const original = cuerpoEditable(doc, datos);
+  const [cuerpo, setCuerpo] = useState(() => edicionGuardada(doc.id) ?? original);
+  const [editando, setEditando] = useState(false);
+  const [bajando, setBajando] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const editado = cuerpo !== original;
+
+  async function bajar() {
+    setBajando(true);
+    setError(null);
+    try {
+      await descargarPdf(doc, datos, cuerpo);
+    } catch {
+      // Casi siempre es la carga del generador: red caída o bloqueador. Sin
+      // este aviso el botón se queda mudo y parece que no hace nada.
+      setError('No se pudo generar el PDF. Revisa tu conexión e inténtalo de nuevo.');
+    } finally {
+      setBajando(false);
+    }
+  }
+
+  function guardar(nuevo: string) {
+    setCuerpo(nuevo);
+    setEditando(false);
+    try {
+      sessionStorage.setItem(CLAVE_EDICION + doc.id, nuevo);
+    } catch {
+      /* almacenamiento bloqueado: la edición vale para esta pantalla */
+    }
+  }
+
   return (
     <figure className="rd-papel">
       <figcaption className="rd-papel__cab">
@@ -113,7 +145,7 @@ function Papel({ doc, datos }: { doc: Documento; datos?: DatosPersona }) {
 
       <div className="rd-papel__hoja">
         <pre className="rd-papel__texto">
-          <Extracto texto={rellenar(doc.extracto, datos)} />
+          <Extracto texto={cuerpo} />
         </pre>
         <span className="rd-papel__degradado" aria-hidden="true" />
       </div>
@@ -135,17 +167,42 @@ function Papel({ doc, datos }: { doc: Documento; datos?: DatosPersona }) {
           </p>
         )}
 
+        {error && (
+          <p className="rd-aviso rd-aviso--error">
+            <IconAlert size={14} />
+            <span>{error}</span>
+          </p>
+        )}
+
         <div className="rd-acciones">
-          {/* TODO: POST /api/casos/:id/doc → PDF */}
-          <button className="rd-btn rd-btn--solido" type="button">
+          <button
+            className="rd-btn rd-btn--solido"
+            type="button"
+            onClick={bajar}
+            disabled={bajando}
+          >
             <IconDownload size={16} />
-            Descargar PDF
+            {bajando ? 'Generando…' : 'Descargar PDF'}
           </button>
-          <button className="rd-btn rd-btn--plano" type="button">
+          <button
+            className="rd-btn rd-btn--plano"
+            type="button"
+            onClick={() => setEditando(true)}
+          >
             Revisar y editar
           </button>
+          {editado && <span className="rd-editado">Editado por ti</span>}
         </div>
       </div>
+
+      {editando && (
+        <EditorDoc
+          doc={doc}
+          cuerpo={cuerpo}
+          onGuardar={guardar}
+          onCerrar={() => setEditando(false)}
+        />
+      )}
     </figure>
   );
 }

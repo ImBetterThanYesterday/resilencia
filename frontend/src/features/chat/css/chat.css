@@ -1,4 +1,4 @@
-/* Resiliencia — chat
+/* Resilencia — chat
  *
  * DIRECCIÓN: expediente, no aplicación.
  *
@@ -8,13 +8,13 @@
  * flotando sobre un lienzo — eso es el look de cualquier SaaS.
  *
  * La firma es una línea de margen vertical que recorre todo el hilo. De ella
- * cuelga el sello de Resiliencia y contra ella se alinea todo lo que dice. Esa
+ * cuelga el sello de Resilencia y contra ella se alinea todo lo que dice. Esa
  * línea reemplaza a las cajas: agrupa sin encerrar.
  *
  * Una sola superficie elevada en toda la interfaz: el documento. Es el
  * artefacto que la persona se lleva, y es lo único que merece parecer objeto.
  *
- * Reparto 60 / 30 / 10 — #F8FAF9 lienzo · #1E3A5F peso · #2E8B72 acento.
+ * Reparto 60 / 30 / 10 — #F8FAF9 lienzo · #1E3A5F peso · #1B6AC9 acento.
  *
  * Tipografías:
  *   Sora            → la voz de la interfaz: títulos, cuerpo y cifras
@@ -28,8 +28,8 @@
   --rd-azul: #1e3a5f;
   --rd-azul-hover: #16293f;
   --rd-azul-suave: #edf1f6;
-  --rd-verde: #2e8b72;
-  --rd-verde-suave: #e7f3ef;
+  --rd-acento: #1b6ac9;
+  --rd-acento-suave: #e9f1fb;
 
   --rd-tinta: #1e3a5f;
   --rd-tinta-2: #55677a;
@@ -182,7 +182,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--rd-verde);
+  background: var(--rd-acento);
   animation: rd-latir 1.15s infinite ease-in-out;
 }
 
@@ -294,7 +294,7 @@
 
 /* Marcada: se tiñe la fila entera. La confirmación tiene que verse de lejos. */
 .rd-opcion--activa {
-  border-left-color: var(--rd-verde);
+  border-left-color: var(--rd-acento);
 }
 
 .rd-opcion input {
@@ -314,8 +314,8 @@
 }
 
 .rd-opcion--activa .rd-opcion__caja {
-  border-color: var(--rd-verde);
-  background: var(--rd-verde);
+  border-color: var(--rd-acento);
+  background: var(--rd-acento);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7'/%3E%3C/svg%3E");
   background-size: 12px;
   background-position: center;
@@ -323,7 +323,7 @@
 }
 
 .rd-opcion input:focus-visible + .rd-opcion__caja {
-  outline: 2px solid var(--rd-verde);
+  outline: 2px solid var(--rd-acento);
   outline-offset: 3px;
 }
 
@@ -350,7 +350,7 @@
 }
 
 .rd-opcion--activa .rd-opcion__abre {
-  color: var(--rd-verde);
+  color: var(--rd-acento);
 }
 
 /* Salida a texto libre: se ofrece antes de la lista, no después. Discreta
@@ -362,10 +362,10 @@
   margin: 16px 0 0;
   padding: 0 0 2px;
   border: none;
-  border-bottom: 1px solid var(--rd-verde);
+  border-bottom: 1px solid var(--rd-acento);
   border-radius: 0;
   background: none;
-  color: var(--rd-verde);
+  color: var(--rd-acento);
   font-family: var(--rd-ui);
   font-size: 13.5px;
   font-weight: 500;
@@ -672,7 +672,7 @@
 }
 
 .rd-plazo__linea i {
-  background: var(--rd-verde);
+  background: var(--rd-acento);
   height: 100%;
   transition: width .8s cubic-bezier(.16,1,.3,1);
   display: block;
@@ -696,7 +696,7 @@
 }
 
 .rd-plazo__paso {
-  color: var(--rd-verde);
+  color: var(--rd-acento);
 }
 
 .rd-plazo--vencido .rd-plazo__paso {
@@ -904,8 +904,8 @@
 }
 
 .rd-sugerencia:hover {
-  background: var(--rd-verde-suave);
-  color: var(--rd-verde);
+  background: var(--rd-acento-suave);
+  color: var(--rd-acento);
 }
 
 .rd-composer__caja {
@@ -921,7 +921,7 @@
 }
 
 .rd-composer__caja:focus-within {
-  box-shadow: 0 0 0 3px var(--rd-verde-suave), 0 10px 30px -12px #2e8b7252;
+  box-shadow: 0 0 0 3px var(--rd-acento-suave), 0 10px 30px -12px #1b6ac952;
 }
 
 .rd-composer__caja--grabando {
@@ -1058,7 +1058,7 @@
 .rd-sugerencia:focus-visible,
 .rd-btn:focus-visible,
 .rd-icon-btn:focus-visible {
-  outline: 2px solid var(--rd-verde);
+  outline: 2px solid var(--rd-acento);
   outline-offset: 2px;
 }
 
@@ -1152,4 +1152,179 @@
   font-size: 11px;
   letter-spacing: 0.02em;
   color: var(--rd-tinta-3);
+}
+
+/* ── Editor del escrito ──────────────────────────────────────────────────────
+ *
+ * Panel modal y no una pantalla aparte: la persona está corrigiendo un
+ * documento que nació de la conversación, y sacarla del hilo para editarlo le
+ * quita el contexto de por qué dice lo que dice.
+ *
+ * En móvil se pega abajo y ocupa casi todo el alto — es una hoja, y el pulgar
+ * llega a los botones sin estirar la mano.
+ */
+
+.rd-aviso--error {
+  color: var(--rd-rojo);
+}
+
+.rd-editado {
+  color: var(--rd-tinta-3);
+  align-self: center;
+  margin-left: 2px;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.rd-editor {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(30, 58, 95, 0.34);
+  backdrop-filter: blur(3px);
+  animation: rd-editor-fondo 180ms ease-out;
+}
+
+.rd-editor__panel {
+  display: flex;
+  flex-direction: column;
+  width: min(720px, 100%);
+  max-height: min(90vh, 780px);
+  padding: 24px;
+  background: var(--rd-superficie);
+  border-radius: 14px;
+  box-shadow: 0 24px 60px -18px rgba(30, 58, 95, 0.4);
+  animation: rd-editor-panel 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rd-editor__cab {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.rd-editor__ojo {
+  margin: 0 0 4px;
+  font-family: var(--rd-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rd-acento);
+}
+
+.rd-editor__titulo {
+  margin: 0;
+  font-family: var(--rd-display);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--rd-azul);
+}
+
+.rd-editor__cerrar {
+  flex: none;
+  margin-left: auto;
+  padding: 7px;
+  color: var(--rd-tinta-3);
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--rd-linea);
+  border-radius: 8px;
+  transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rd-editor__cerrar:hover {
+  color: var(--rd-azul);
+  border-color: var(--rd-azul);
+}
+
+.rd-editor__nota {
+  margin: 14px 0 12px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--rd-tinta-2);
+}
+
+/* Serif y no la UI: es el texto del escrito, y verlo con la misma letra con la
+   que sale impreso evita la sorpresa al abrir el PDF. */
+.rd-editor__area {
+  flex: 1;
+  min-height: 240px;
+  padding: 18px 20px;
+  font-family: var(--rd-doc);
+  font-size: 15px;
+  line-height: 1.72;
+  color: var(--rd-tinta);
+  resize: none;
+  background: var(--rd-blanco);
+  border: 1px solid var(--rd-linea);
+  border-radius: 8px;
+}
+
+.rd-editor__area:focus {
+  outline: none;
+  border-color: var(--rd-acento);
+  box-shadow: 0 0 0 3px var(--rd-acento-suave);
+}
+
+.rd-editor__alerta {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--rd-ambar);
+  background: var(--rd-ambar-suave);
+  border-radius: 8px;
+}
+
+.rd-editor__alerta svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.rd-editor__pie {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+@keyframes rd-editor-fondo {
+  from { opacity: 0; }
+}
+
+@keyframes rd-editor-panel {
+  from { opacity: 0; transform: translateY(12px) scale(0.985); }
+}
+
+@media (max-width: 640px) {
+  .rd-editor {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .rd-editor__panel {
+    max-height: 94vh;
+    border-radius: 16px 16px 0 0;
+    padding: 20px 18px calc(18px + env(safe-area-inset-bottom));
+  }
+
+  .rd-editor__pie .rd-btn {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-editor,
+  .rd-editor__panel {
+    animation: none;
+  }
 }

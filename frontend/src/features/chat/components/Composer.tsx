@@ -256,7 +256,7 @@ export function Composer({ sugerencias, pensando, onEnviar, textoDemoAudio }: Pr
       </div>
 
       <p className="rd-disclaimer">
-        Resiliencia redacta documentos; no presta asesoría jurídica ni reemplaza a un abogado.
+        Resilencia redacta documentos; no presta asesoría jurídica ni reemplaza a un abogado.
         Revisa todo antes de radicarlo.
       </p>
     </div>

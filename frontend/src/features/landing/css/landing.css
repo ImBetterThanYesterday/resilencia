@@ -1,4 +1,4 @@
-/* Resiliencia — landing
+/* Resilencia — landing
  *
  * Registro institucional: se tiene que leer como una organización que presta
  * un servicio, no como un lanzamiento de software. Eso significa encabezado
@@ -6,7 +6,7 @@
  * pie con la letra chica a la vista.
  *
  * Sin tarjetas, sin badges, sin sombras. Todo en Sora.
- * El color va contado: azul para el peso, verde solo para señalar la
+ * El color va contado: azul de peso para la estructura, azul vivo solo para señalar la
  * respuesta y la acción. El resto es lienzo y aire.
  */
 
@@ -14,8 +14,8 @@
   --ld-blanco: #f8faf9;
   --ld-azul: #1e3a5f;
   --ld-azul-hover: #16293f;
-  --ld-verde: #2e8b72;
-  --ld-verde-hover: #26765f;
+  --ld-acento: #1b6ac9;
+  --ld-acento-hover: #155aad;
 
   --ld-tinta-2: #55677a;
   --ld-tinta-3: #8d9daa;
@@ -146,13 +146,13 @@
     border-color 220ms ease;
 }
 
-.ld-btn--verde {
-  background: var(--ld-verde);
+.ld-btn--acento {
+  background: var(--ld-acento);
   color: #fff;
 }
 
-.ld-btn--verde:hover {
-  background: var(--ld-verde-hover);
+.ld-btn--acento:hover {
+  background: var(--ld-acento-hover);
   transform: translateY(-2px);
 }
 
@@ -176,7 +176,7 @@
   margin: 0 0 26px;
   font-size: 0.875rem;
   letter-spacing: 0.01em;
-  color: var(--ld-verde);
+  color: var(--ld-acento);
 }
 
 .ld-hero__h1 {
@@ -185,6 +185,24 @@
   font-weight: 600;
   letter-spacing: -0.047em;
   line-height: 1.02;
+}
+
+/* El guiño al nombre. Va pegado al h1 —es su pie de foto, no un párrafo
+   aparte— y en un cuerpo chico: si compite con el titular deja de ser un
+   guiño y se vuelve una excusa. La i que falta se pinta en acento para que
+   se lea que la ausencia es deliberada. */
+.ld-hero__guino {
+  margin: 14px 0 0;
+  font-size: clamp(0.95rem, 1.6vw, 1.0625rem);
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  color: var(--ld-tinta-2);
+}
+
+.ld-hero__i {
+  color: var(--ld-acento);
+  font-weight: 600;
+  font-style: italic;
 }
 
 .ld-hero__bajada {
@@ -272,7 +290,7 @@
 }
 
 .ld-compromisos__lista li:nth-child(2) .ld-compromiso__icono {
-  background: var(--ld-verde);
+  background: var(--ld-acento);
 }
 
 .ld-compromisos__lista li:nth-child(2) .ld-compromiso h3 {
@@ -367,12 +385,12 @@
 
 .ld-fila:hover .ld-fila__flecha,
 .ld-fila:focus-visible .ld-fila__flecha {
-  background: var(--ld-verde);
+  background: var(--ld-acento);
 }
 
 .ld-fila:hover .ld-fila__flecha::after,
 .ld-fila:focus-visible .ld-fila__flecha::after {
-  border-color: var(--ld-verde);
+  border-color: var(--ld-acento);
 }
 
 .ld-fila__respuesta {
@@ -387,7 +405,7 @@
 
 .ld-fila:hover .ld-fila__respuesta,
 .ld-fila:focus-visible .ld-fila__respuesta {
-  color: var(--ld-verde);
+  color: var(--ld-acento);
 }
 
 /* ── Cómo funciona ───────────────────────────────────────────────────────── */
@@ -464,7 +482,7 @@
 .ld-cita {
   margin: 46px 0 0;
   padding: 0 0 0 26px;
-  border-left: 2px solid var(--ld-verde);
+  border-left: 2px solid var(--ld-acento);
   max-width: 26ch;
   font-size: clamp(1.5rem, 3.4vw, 2.1rem);
   font-style: normal;
@@ -510,7 +528,7 @@
   color: rgba(255, 255, 255, 0.62);
 }
 
-.ld-cierre .ld-btn--verde {
+.ld-cierre .ld-btn--acento {
   margin-top: 42px;
 }
 
@@ -564,7 +582,7 @@
 }
 
 .ld-pie__col button:hover {
-  color: var(--ld-verde);
+  color: var(--ld-acento);
 }
 
 .ld-pie__legal {
@@ -584,7 +602,7 @@
 .ld-nav__cta:focus-visible,
 .ld-nav__links button:focus-visible,
 .ld-pie__col button:focus-visible {
-  outline: 2px solid var(--ld-verde);
+  outline: 2px solid var(--ld-acento);
   outline-offset: 3px;
 }
 
@@ -675,7 +693,7 @@
   .ld-fila__respuesta {
     margin-top: 7px;
     padding-left: 14px;
-    border-left: 2px solid var(--ld-verde);
+    border-left: 2px solid var(--ld-acento);
   }
 
   .ld-pasos .ld-revelar {
@@ -889,7 +907,7 @@
   font-size: 0.6875rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
-  color: var(--ld-verde);
+  color: var(--ld-acento);
 }
 
 .ld-equipo .ld-intro + .ld-intro {
@@ -908,5 +926,320 @@
 
   .ld-equipo__figura img {
     aspect-ratio: 3 / 2;
+  }
+}
+
+/* ── Agente de dudas ─────────────────────────────────────────────────────────
+ *
+ * Abajo a la derecha, la posición que todo el mundo ya sabe leer. Con etiqueta
+ * y no solo el ícono: una burbuja muda obliga a adivinar qué hay detrás, y
+ * quien entra acá no está para explorar interfaces.
+ *
+ * En móvil el panel toma la pantalla completa. Media pantalla con el teclado
+ * abierto deja el hilo en cuatro líneas y no se lee nada.
+ */
+
+.ld-burbuja {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 20px 13px 17px;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  background: var(--ld-azul);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px -8px rgba(30, 58, 95, 0.5);
+  transition:
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    background 220ms ease,
+    opacity 160ms ease;
+}
+
+.ld-burbuja:hover {
+  background: var(--ld-azul-hover);
+  transform: translateY(-2px);
+}
+
+.ld-burbuja--oculta {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ld-dudas {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  width: 384px;
+  max-width: calc(100vw - 48px);
+  height: 560px;
+  max-height: calc(100vh - 48px);
+  background: #fff;
+  border: 1px solid var(--ld-linea);
+  border-radius: 16px;
+  box-shadow: 0 24px 60px -16px rgba(30, 58, 95, 0.34);
+  animation: ld-dudas-entrar 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.ld-dudas__cab {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 14px 14px 16px;
+  border-bottom: 1px solid var(--ld-linea);
+}
+
+.ld-dudas__quien {
+  min-width: 0;
+}
+
+.ld-dudas__nombre {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ld-azul);
+}
+
+.ld-dudas__estado {
+  margin: 1px 0 0;
+  font-size: 0.75rem;
+  color: var(--ld-acento);
+}
+
+.ld-dudas__cerrar {
+  margin-left: auto;
+  padding: 7px;
+  color: var(--ld-tinta-3);
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--ld-linea);
+  border-radius: 8px;
+  transition: all 160ms ease;
+}
+
+.ld-dudas__cerrar:hover {
+  color: var(--ld-azul);
+  border-color: var(--ld-azul);
+}
+
+.ld-dudas__hilo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.ld-dudas__msg {
+  max-width: 86%;
+  margin: 0;
+  padding: 11px 14px;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.ld-dudas__msg--agente {
+  align-self: flex-start;
+  color: var(--ld-azul);
+  background: #eef2f7;
+  border-radius: 4px 14px 14px 14px;
+}
+
+.ld-dudas__msg--persona {
+  align-self: flex-end;
+  color: #fff;
+  background: var(--ld-azul);
+  border-radius: 14px 4px 14px 14px;
+}
+
+.ld-dudas__msg--pensando {
+  display: flex;
+  gap: 5px;
+  padding: 15px 14px;
+}
+
+.ld-dudas__msg--pensando span {
+  width: 6px;
+  height: 6px;
+  background: var(--ld-tinta-3);
+  border-radius: 50%;
+  animation: ld-dudas-punto 1.2s infinite ease-in-out;
+}
+
+.ld-dudas__msg--pensando span:nth-child(2) { animation-delay: 0.15s; }
+.ld-dudas__msg--pensando span:nth-child(3) { animation-delay: 0.3s; }
+
+.ld-dudas__error {
+  margin: 0;
+  padding: 10px 12px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #a82f26;
+  background: #fbefee;
+  border-radius: 8px;
+}
+
+.ld-dudas__ejemplos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 16px 12px;
+}
+
+.ld-dudas__ejemplos button {
+  padding: 7px 12px;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  color: var(--ld-acento);
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--ld-linea);
+  border-radius: 999px;
+  transition: all 160ms ease;
+}
+
+.ld-dudas__ejemplos button:hover {
+  border-color: var(--ld-acento);
+  background: #f2f7fd;
+}
+
+.ld-dudas__caja {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  margin: 0 12px 4px;
+  padding: 6px 6px 6px 12px;
+  background: #f6f8fa;
+  border: 1px solid var(--ld-linea);
+  border-radius: 14px;
+  transition: border-color 160ms ease;
+}
+
+.ld-dudas__caja:focus-within {
+  border-color: var(--ld-acento);
+}
+
+.ld-dudas__caja--grabando {
+  border-color: #a82f26;
+  background: #fdf4f3;
+}
+
+.ld-dudas__area {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 0;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--ld-azul);
+  resize: none;
+  background: none;
+  border: none;
+}
+
+.ld-dudas__area:focus {
+  outline: none;
+}
+
+.ld-dudas__icono {
+  flex: none;
+  display: inline-flex;
+  padding: 8px;
+  color: var(--ld-tinta-2);
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 9px;
+  transition: all 160ms ease;
+}
+
+.ld-dudas__icono:hover:not(:disabled) {
+  color: var(--ld-azul);
+  background: #e9edf2;
+}
+
+.ld-dudas__icono:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ld-dudas__icono--enviar {
+  color: #fff;
+  background: var(--ld-acento);
+}
+
+.ld-dudas__icono--enviar:hover:not(:disabled) {
+  color: #fff;
+  background: var(--ld-acento-hover);
+}
+
+.ld-dudas__icono--rec {
+  color: #fff;
+  background: #a82f26;
+}
+
+.ld-dudas__legal {
+  margin: 0;
+  padding: 8px 16px 12px;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  color: var(--ld-tinta-3);
+}
+
+@keyframes ld-dudas-entrar {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+}
+
+@keyframes ld-dudas-punto {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+
+@media (max-width: 640px) {
+  .ld-burbuja {
+    right: 16px;
+    bottom: 16px;
+    padding: 12px 18px 12px 15px;
+  }
+
+  .ld-dudas {
+    inset: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    border: none;
+    border-radius: 0;
+  }
+
+  .ld-dudas__legal {
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ld-dudas,
+  .ld-burbuja {
+    animation: none;
+    transition: none;
+  }
+
+  .ld-dudas__msg--pensando span {
+    animation: none;
   }
 }

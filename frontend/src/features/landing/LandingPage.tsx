@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { MarcaR } from '../../components/Marca';
 import { BanderaCO } from '../../components/Bandera';
 import { IconGratis, IconPersona, IconSello } from '../../components/icons';
+import { BurbujaDudas } from './components/BurbujaDudas';
 import barrioColor from '../../assets/fotos/barrio-color.jpg';
 import barrioLadera from '../../assets/fotos/barrio-ladera.jpg';
 import grieta from '../../assets/fotos/grieta.jpg';
@@ -9,7 +10,7 @@ import grupo from '../../assets/fotos/grupo.jpg';
 import './css/landing.css';
 
 /**
- * Landing de Resiliencia.
+ * Landing de Resilencia.
  *
  * Registro: organización que presta un servicio público, no producto de
  * software. Eso define las decisiones: encabezado con navegación real, proceso
@@ -165,7 +166,7 @@ export function LandingPage({ onEntrar }: Props) {
             }}
           >
             <MarcaR size={30} />
-            <span>Resiliencia</span>
+            <span>Resilencia</span>
           </a>
 
           <nav className="ld-nav__links">
@@ -195,7 +196,15 @@ export function LandingPage({ onEntrar }: Props) {
               Subsidios para damnificados del terremoto · Colombia
             </p>
 
-            <h1 className="ld-hero__h1">Soy Resiliencia.</h1>
+            <h1 className="ld-hero__h1">Soy Resilencia.</h1>
+
+            {/* El nombre está escrito como el dominio, sin la i. No es un error
+                de tipeo: es el argumento. Lo decimos nosotros antes de que lo
+                note alguien más, y lo convertimos en lo que significa estar
+                damnificado — te falta algo, y sigues de pie igual. */}
+            <p className="ld-hero__guino">
+              Nos falta una <span className="ld-hero__i">i</span>, no la resiliencia.
+            </p>
 
             <p className="ld-hero__bajada">
               Te digo exactamente a qué subsidios tienes derecho tras el terremoto y te
@@ -203,7 +212,7 @@ export function LandingPage({ onEntrar }: Props) {
             </p>
 
             <div className="ld-hero__acciones">
-              <button type="button" className="ld-btn ld-btn--verde" onClick={() => onEntrar()}>
+              <button type="button" className="ld-btn ld-btn--acento" onClick={() => onEntrar()}>
                 Ver a qué subsidios tengo derecho
               </button>
               <p className="ld-hero__nota">
@@ -357,7 +366,7 @@ export function LandingPage({ onEntrar }: Props) {
             <figure className="ld-equipo__figura">
               <img
                 src={grupo}
-                alt="Tres integrantes del equipo frente a un tablero donde está escrito el problema que originó Resiliencia"
+                alt="Tres integrantes del equipo frente a un tablero donde está escrito el problema que originó Resilencia"
               />
               <figcaption>El tablero donde empezó todo.</figcaption>
             </figure>
@@ -383,7 +392,7 @@ export function LandingPage({ onEntrar }: Props) {
             <h2 className="ld-cierre__h2">Empieza por lo que necesitas resolver hoy.</h2>
             <p className="ld-intro ld-intro--claro">Lo demás lo vemos después.</p>
 
-            <button type="button" className="ld-btn ld-btn--verde" onClick={() => onEntrar()}>
+            <button type="button" className="ld-btn ld-btn--acento" onClick={() => onEntrar()}>
               Ver a qué subsidios tengo derecho
             </button>
           </Revelar>
@@ -424,13 +433,17 @@ export function LandingPage({ onEntrar }: Props) {
 
         <div className="ld-ancho">
           <p className="ld-pie__legal">
-            Resiliencia redacta documentos; no presta asesoría jurídica ni reemplaza a un
+            Resilencia redacta documentos; no presta asesoría jurídica ni reemplaza a un
             abogado. Revisa todo antes de radicarlo.
             <br />
             Fotografías de Unsplash, bajo licencia de uso libre.
           </p>
         </div>
       </footer>
+
+      {/* Fuera del flujo: es fixed y acompaña todo el scroll. La duda no llega
+          en un punto concreto de la página, llega cuando llega. */}
+      <BurbujaDudas />
     </div>
   );
 }

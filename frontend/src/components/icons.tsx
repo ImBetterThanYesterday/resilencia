@@ -129,3 +129,9 @@ export const IconShield = ({ size = 18, className }: P) => (
     <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z" />
   </svg>
 );
+
+export const IconChat = ({ size = 22, className }: P) => (
+  <svg {...base(size)} className={className}>
+    <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.9 9.9 0 0 1-2.8-.4L3 21l1.6-4.6A8.2 8.2 0 0 1 3.6 11.5 8.4 8.4 0 0 1 12 3.1a8.4 8.4 0 0 1 9 8.4Z" />
+  </svg>
+);
